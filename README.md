@@ -4,6 +4,9 @@ This repository contains notebooks for building and evaluating interpretable tem
 
 The modeling framework is inspired by spike-timing-dependent plasticity (STDP): clinical events are represented as sparse temporal pairs, where events that occur closer together contribute more strongly than events farther apart. In this implementation, STDP is used as a computational analogy for temporally ordered EHR events, not as a neurobiological or causal model.
 
+# Data availability
+
+Institutional EHR data are not included in this repository because they contain protected health information. The notebooks are structured so that users can adapt the workflow to their own de-identified event-day tables with the required columns.
 ## Current focus
 
 The current GitHub section covers condition-based transition modeling for PDAC recurrence prediction. Later sections will add condition-to-laboratory and laboratory-to-condition transition tuning notebooks.
@@ -32,3 +35,4 @@ A forward transition means:
 
 ```text
 event A occurred before event B within a prespecified temporal window
+
