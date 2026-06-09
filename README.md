@@ -31,8 +31,22 @@ Mapped Phecode tokens are used for standardized clinical-category modeling. Unma
 
 Forward-only transitions are the primary biologically interpretable representation.
 
-A forward transition means:
+A forward transition means: event A occurred before event B within a prespecified temporal window
 
-```text
-event A occurred before event B within a prespecified temporal window
+## Limitations
 
+This repository is intended for methodological development and retrospective validation, not for direct clinical deployment. Several limitations should be considered when interpreting the notebooks and model outputs.
+
+First, EHR timestamps reflect both disease biology and clinical behavior. Diagnosis codes and laboratory measurements may be influenced by visit frequency, documentation practices, billing workflows, referral patterns, and preoperative workup intensity. Although the workflow includes utilization and documentation-intensity adjustment, residual confounding by clinical observation remains possible.
+
+Second, STDP-inspired transition features represent temporally ordered associations, not causal effects. A forward transition indicates that one event was documented before another within a specified time window, but it does not prove that the earlier event caused the later event or the outcome. Bidirectional sensitivity features should be interpreted only as local temporal proximity or co-documentation patterns.
+
+Third, lag and tau are empirical hyperparameters. They define the maximum transition window and temporal decay strength, but they should not be interpreted as fixed biological constants. Different clinical settings, institutions, event types, and prediction horizons may require different lag/tau choices.
+
+Fourth, condition mapping depends on source-code quality. ICD-to-Phecode mapping improves standardization, but not all source codes map cleanly. The workflow retains unmapped conditions for burden adjustment, but unmapped tokens are less standardized and should not be over-interpreted as biological transition states.
+
+Fifth, this PDAC recurrence task uses a single-institution retrospective cohort. Model performance may vary across institutions because of differences in coding practices, surgical workflows, follow-up intensity, recurrence ascertainment, patient mix, and treatment patterns. External validation is required before clinical generalization.
+
+Sixth, the current condition-transition notebooks do not yet include all clinically relevant modalities. Medications, procedures, chemotherapy timing, radiology reports, pathology details, imaging features, tumor markers, and laboratory trajectories may provide additional recurrence-relevant signal. Later notebooks will extend this framework to condition-to-laboratory and laboratory-to-condition transitions.
+
+Finally, model discrimination remains modest in the PDAC recurrence setting. These models should be interpreted as tools for studying temporal EHR representations and generating hypotheses about recurrence-associated trajectories, not as standalone surgical decision models.
