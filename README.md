@@ -52,6 +52,33 @@ may represent a clinical trajectory followed by a physiologic abnormality. These
 
 Lag and tau were treated as empirical hyperparameters. The lag parameter defines the maximum allowable time gap between two events, while tau controls how quickly more distant event pairs are down-weighted. Because different event families may operate on different clinical time scales, condition-to-condition and condition-to-laboratory transitions were tuned separately before being evaluated in combined models.
 
+## ## Rolling risk prediction
+
+The rolling risk prediction workflow evaluates the same STDP-inspired feature construction across multiple preoperative prediction horizons. Instead of building one fixed patient-level feature vector using the full preoperative record, the patient timeline is progressively truncated at clinically relevant cutoff points. At each cutoff, only events available up to that time are used to reconstruct the feature vector and estimate recurrence risk.
+
+For the PDAC recurrence task, rolling prediction horizons include:
+
+```text
+Day -90, Day -60, Day -30, Day -14, Day -7, Day -3, and Day 0 (7days before recorded surgery date to avoid data leakage and documentation delay)
+```
+
+where each day is defined relative to the surgical/index date. Day -30 is treated as the primary preoperative decision horizon, while later horizons evaluate how risk estimates update as additional clinical information becomes available closer to surgery.
+
+At each rolling horizon, the workflow performs the following steps:
+
+```text
+1. Truncate each patient's event timeline at the horizon-specific cutoff.
+2. Rebuild condition-frequency, laboratory-frequency, and utilization features using only visible pre-cutoff data.
+3. Recompute STDP-inspired transition features using only event pairs available before the cutoff.
+4. Fit and evaluate prediction models using patient-level cross-validation.
+5. Compare risk estimates across horizons to assess dynamic risk evolution.
+```
+
+This design simulates a surveillance setting in which a patient’s risk estimate is updated as new diagnoses, laboratory abnormalities, and clinical encounters accumulate over time. For example, a patient may have an initial risk estimate at Day -30, followed by updated estimates at Day -14, Day -7, and Day 0 as additional preoperative events become available.
+
+The rolling prediction analysis is intended to evaluate both absolute risk at each horizon and changes in risk over time. Earlier horizons may have weaker discrimination because less proximal clinical information is available. Later horizons may show stronger performance if recurrence-associated patterns become more visible during the final preoperative workup period. Therefore, this workflow should be interpreted as a dynamic risk-surveillance framework rather than a single fixed-time prediction model.
+
+
 ## Limitations
 
 This repository is intended for methodological development and retrospective validation, not for direct clinical deployment. Several limitations should be considered when interpreting the notebooks and model outputs.
