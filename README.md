@@ -33,6 +33,25 @@ Forward-only transitions are the primary biologically interpretable representati
 
 A forward transition means: event A occurred before event B within a prespecified temporal window
 
+## Condition-to-condition and condition-to-laboratory transition pairs
+
+This workflow evaluates two main types of temporally ordered transition pairs.
+
+Condition-to-condition transitions capture longitudinal clinical-state trajectories. These features ask whether one condition/Phecode-derived clinical state was documented before another condition state within a prespecified lag/tau window. Because diagnosis-code trajectories may evolve over days to weeks, condition-to-condition transitions were evaluated with broader temporal windows.
+
+Condition-to-laboratory transitions capture cross-modal physiologic patterns. These features ask whether a condition/Phecode-derived clinical state was followed by an abnormal laboratory state or laboratory axis within a prespecified lag/tau window. Because laboratory testing often occurs during the same or near-adjacent clinical workup episode, condition-to-laboratory transitions were evaluated primarily with shorter temporal windows.
+
+In the combined model, both transition families are used together. Conceptually, the patient timeline is represented as an ordered sequence of condition and laboratory events. The model then constructs decayed transition scores for selected event pairs, allowing it to capture both longitudinal diagnosis trajectories and short-range condition-to-physiology relationships.
+
+For example:
+
+condition A → condition B
+condition B → abnormal laboratory axis C
+
+may represent a clinical trajectory followed by a physiologic abnormality. These features preserve directionality and timing, but they should be interpreted as temporally ordered associations rather than causal pathways.
+
+Lag and tau were treated as empirical hyperparameters. The lag parameter defines the maximum allowable time gap between two events, while tau controls how quickly more distant event pairs are down-weighted. Because different event families may operate on different clinical time scales, condition-to-condition and condition-to-laboratory transitions were tuned separately before being evaluated in combined models.
+
 ## Limitations
 
 This repository is intended for methodological development and retrospective validation, not for direct clinical deployment. Several limitations should be considered when interpreting the notebooks and model outputs.
