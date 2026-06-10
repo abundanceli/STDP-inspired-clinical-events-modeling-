@@ -96,3 +96,7 @@ Fifth, this PDAC recurrence task uses a single-institution retrospective cohort.
 Sixth, the current condition-transition notebooks do not yet include all clinically relevant modalities. Medications, procedures, chemotherapy timing, radiology reports, pathology details, imaging features, tumor markers, and laboratory trajectories may provide additional recurrence-relevant signal. Later notebooks will extend this framework to condition-to-laboratory and laboratory-to-condition transitions.
 
 Finally, model discrimination remains modest in the PDAC recurrence setting. These models should be interpreted as tools for studying temporal EHR representations and generating hypotheses about recurrence-associated trajectories, not as standalone surgical decision models.
+
+## Acknowledgements
+
+The authors gratefully acknowledge Benjamin May for his guidance and support with OMOP data access, data curation, and structured EHR data interpretation. The authors also thank Harry Reyes Nieva for his guidance on clinical informatics, AI governance, reporting considerations, and OMOP-based data workflows. The authors acknowledge PhysioNet and the MIMIC-IV data contributors for making the MIMIC-IV dataset available to credentialed researchers, enabling external benchmarking of the STDP-inspired temporal transition modeling framework.
